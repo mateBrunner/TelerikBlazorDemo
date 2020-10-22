@@ -1,0 +1,14 @@
+﻿@*A legkülső burok*@
+<Router AppAssembly="@typeof(Program).Assembly">
+    @*Ha létezik a path, megjelenítjük a MainLayout-ot*@
+    <Found Context="routeData">
+        @*A DefaultLayout-tal adunk meg layout-ot olyan komponensnek, aminek amúgy nincs*@
+        <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
+    </Found>
+    <NotFound>
+        @*Ha nem létező path-t hívunk, akkor is megjelenítjük a MainLayout-ot, és a belső részébe kerül a hibaüzenet*@
+        <LayoutView Layout="@typeof(MainLayout)">
+            <p>Sorry, there's nothing at this address.</p>
+        </LayoutView>
+    </NotFound>
+</Router>
