@@ -8,6 +8,20 @@ a, .btn-link {
     color: #0366d6;
 }
 
+.primaryButton {
+    background-color: #4eb51c;
+    font-size: 20px;
+}
+
+.testDiv {
+    font-size: 17px;
+    margin: 5px 0 0 0;
+}
+
+.testDiv2 {
+    flex-direction: row;
+}
+
 .btn-primary {
     color: #fff;
     background-color: #1b6ec2;

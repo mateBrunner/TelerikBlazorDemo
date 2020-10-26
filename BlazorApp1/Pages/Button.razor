@@ -1,0 +1,25 @@
+﻿@page "/button"
+
+<h3>Button</h3>
+<div>
+    <TelerikButton class="primaryButton" OnClick="@OnClick">
+        Click me!
+    </TelerikButton>
+</div>
+<div class="testDiv">
+    @CounterText
+</div>
+
+
+@code {
+
+    public string CounterText { get; set; }
+    private int counter = 0;
+
+    protected void OnClick()
+    {
+        counter++;
+        CounterText = $"A gombra kattintottál {counter} alkalommal.";
+    }
+
+}

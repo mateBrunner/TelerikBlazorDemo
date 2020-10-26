@@ -1,0 +1,28 @@
+﻿@page "/textbox"
+
+<h3>Textbox</h3>
+<div class="testDiv2">
+
+    <TelerikTextBox OnChange="@MyOnChangeHandler" @bind-Value="NevInput">
+    </TelerikTextBox>
+
+    @*<TelerikTextBox Enabled="false" @bind="Email" >
+    </TelerikTextBox>*@
+
+</div>
+@Email
+
+
+@code {
+
+    public string NevInput { get; set; }
+
+    public string Email { get; set; }
+
+    private void MyOnChangeHandler(object input)
+    {
+        Email = input.ToString( );
+    }
+
+
+}
