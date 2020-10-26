@@ -1,0 +1,19 @@
+﻿@page "/combobox"
+
+<h3>Combobox</h3>
+<div class="testDiv2">
+
+    <TelerikComboBox Value="@CurrentOrder.CategoryId" Data="@Categories" Placeholder="Select Category"
+                     TextField="@nameof(ProductCategory.Name)" ValueField="@nameof(ProductCategory.ProductCategoryId)" Filterable="true"
+                     Id="category" Width="100%"
+                     ValueChanged="@( (int? c) => CategorySelected(c) )">
+    </TelerikComboBox>
+
+</div>
+
+
+@code {
+
+
+    
+}

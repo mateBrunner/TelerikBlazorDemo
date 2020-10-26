@@ -19,7 +19,14 @@ a, .btn-link {
 }
 
 .testDiv2 {
-    flex-direction: row;
+    display: flex;
+    flex-direction: column;
+    max-width: 200px;
+}
+
+.k-textbox-container:not(.k-state-empty) .k-label {
+    margin-top: -10px;
+    max-width: 200px;
 }
 
 .btn-primary {

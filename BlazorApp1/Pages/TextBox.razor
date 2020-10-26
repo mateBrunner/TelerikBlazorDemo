@@ -3,19 +3,31 @@
 <h3>Textbox</h3>
 <div class="testDiv2">
 
-    <TelerikTextBox OnChange="@MyOnChangeHandler" @bind-Value="NevInput">
+    <TelerikTextBox @bind-Value="NevInput" Label="Név">
     </TelerikTextBox>
 
-    @*<TelerikTextBox Enabled="false" @bind="Email" >
-    </TelerikTextBox>*@
+    <TelerikTextBox Enabled="false" @bind-Value="Email" Label="Email">
+    </TelerikTextBox>
 
 </div>
-@Email
 
 
 @code {
 
-    public string NevInput { get; set; }
+    private string m_NevInput;
+
+    public string NevInput
+    {
+        get { return m_NevInput; }
+        set {
+            m_NevInput = value;
+            var nev = m_NevInput.ToLower( ).Replace( " ", "" ).Replace( "á", "a" ).Replace( "é", "e" )
+                .Replace( "í", "i" ).Replace( "ó", "o" ).Replace( "ö", "o" ).Replace( "ő", "o" )
+                .Replace( "ú", "u" ).Replace( "ü", "u" ).Replace( "ű", "u" );
+            Email = $"{nev}@gmail.com";
+        }
+    }
+
 
     public string Email { get; set; }
 
