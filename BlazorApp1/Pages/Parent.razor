@@ -1,11 +1,12 @@
 ﻿@page "/parentchild"
 
+@*Ide nem feltétlenül kell, mert az _Imports.razor-be már beletettük*@
 @using BlazorApp1.Components
 
 <h3>Parent - child</h3>
 <div class="testDiv2">
 
-    <Login Title="Login"
+    <Login Username="@ParentValue" Password="123" Title="Login"
            OnClickCallback="@ShowMessage">
     </Login>
 
@@ -16,9 +17,10 @@
 
 @code {
 
+    string ParentValue { get; set; } = "HELLO";
     string messageText { get; set; }
 
-    private void ShowMessage( MouseEventArgs e )
+    private void ShowMessage(MouseEventArgs e)
     {
         messageText = $"Blaze a new trail with Blazor! ({e.ScreenX}, {e.ScreenY})";
     }
