@@ -1,0 +1,27 @@
+﻿
+<h3>@Title</h3>
+<div class="testDiv2">
+
+    <TelerikTextBox @bind-Value="Username" Label="Username">
+    </TelerikTextBox>
+
+    <TelerikTextBox @bind-Value="Password" Label="Password">
+    </TelerikTextBox>
+
+    <TelerikButton class="btn btn-primary" @onclick="OnClickCallback">Log in</TelerikButton>
+
+</div>
+
+@code {
+
+    [Parameter]
+    public string Title { get; set; }
+
+    [Parameter]
+    public EventCallback<MouseEventArgs> OnClickCallback { get; set; }
+
+    public string Username { get; set; }
+    public string Password { get; set; }
+
+}
+

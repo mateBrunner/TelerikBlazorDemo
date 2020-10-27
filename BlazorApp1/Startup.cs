@@ -32,6 +32,7 @@ namespace BlazorApp1
             services.AddTelerikBlazor( );
             services.AddServerSideBlazor( );
             services.AddSingleton<WeatherForecastService>( );
+            services.AddSingleton<CountryService>( );
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -1,0 +1,26 @@
+﻿@page "/parentchild"
+
+@using BlazorApp1.Components
+
+<h3>Parent - child</h3>
+<div class="testDiv2">
+
+    <Login Title="Login"
+           OnClickCallback="@ShowMessage">
+    </Login>
+
+    <p>@messageText</p>
+
+</div>
+
+
+@code {
+
+    string messageText { get; set; }
+
+    private void ShowMessage( MouseEventArgs e )
+    {
+        messageText = $"Blaze a new trail with Blazor! ({e.ScreenX}, {e.ScreenY})";
+    }
+
+}

@@ -1,19 +1,45 @@
 ﻿@page "/combobox"
 
+@using BlazorApp1.Data
+@inject CountryService CountryService
+
 <h3>Combobox</h3>
 <div class="testDiv2">
 
-    <TelerikComboBox Value="@CurrentOrder.CategoryId" Data="@Categories" Placeholder="Select Category"
-                     TextField="@nameof(ProductCategory.Name)" ValueField="@nameof(ProductCategory.ProductCategoryId)" Filterable="true"
-                     Id="category" Width="100%"
-                     ValueChanged="@( (int? c) => CategorySelected(c) )">
+    @*<TelerikComboBox Value="@CurrentOrder.CategoryId" Data="@Categories" Placeholder="Select Category"
+                         TextField="@nameof(ProductCategory.Name)" ValueField="@nameof(ProductCategory.ProductCategoryId)" Filterable="true"
+                         Id="category" Width="100%"
+                         ValueChanged="@( (int? c) => CategorySelected(c) )">
+        </TelerikComboBox>*@
+
+    <TelerikComboBox Data="@Continents" Value="@SelectedCountry.ContinentId"
+                     TextField="@nameof(Continent.Name)" ValueField="@nameof(Continent.Id)"
+                     ValueChanged="@( (int c) => ContinentSelected(c) )" PlaceHolder="Válassz kontinenst">
     </TelerikComboBox>
 
+    <TelerikComboBox Data="@Countries" Value="@SelectedCountry.Id"
+                     TextField="@nameof(Country.Name)" ValueField="@nameof(Country.Id)">
+    </TelerikComboBox>
 </div>
 
 
 @code {
 
+    List<Continent> Continents { get; set; }
+    List<Country> Countries { get; set; }
+    Country SelectedCountry { get; set; } = new Country( );
 
-    
+    protected override async Task OnInitializedAsync( )
+    {
+        Continents = await CountryService.GetContinents( );
+
+        await base.OnInitializedAsync( );
+    }
+
+    async void ContinentSelected(int continentId)
+    {
+        Countries = await CountryService.GetCountries( continentId );
+        SelectedCountry = Countries[ 0 ];
+    }
+
 }
