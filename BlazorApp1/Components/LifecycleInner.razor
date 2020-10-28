@@ -1,0 +1,52 @@
+﻿@inject BlazorApp1.Data.CountryService CountryService
+@inject BlazorApp1.Data.AppState AppState
+
+<div class="lifecycleMainDiv">
+
+    <h3>@Title</h3>
+
+</div>
+
+
+
+@code {
+
+    [Parameter]
+    public string Title { get; set; }
+
+    public override async Task SetParametersAsync( ParameterView parameters )
+    {
+        AppState.SetState( $"SetParametersAsync, Title: {Title}" );
+        await CountryService.TestWaiting( );
+        await base.SetParametersAsync( parameters );
+    }
+
+    protected override async Task OnInitializedAsync( )
+    {
+
+        AppState.SetState( $"OnInitializedAsync" );
+        await CountryService.TestWaiting( );
+        await base.OnInitializedAsync( );
+    }
+
+    protected override async Task OnParametersSetAsync( )
+    {
+        AppState.SetState( $"OnParametersSetAsync" );
+        await CountryService.TestWaiting( );
+        await base.OnParametersSetAsync( );
+    }
+
+    protected override async Task OnAfterRenderAsync( bool first )
+    {
+
+        AppState.SetState( $"OnAfterRender" );
+        var a = first;
+        await CountryService.TestWaiting( );
+        await base.OnAfterRenderAsync( first );
+    }
+
+
+
+
+}
+

@@ -1,0 +1,55 @@
+﻿@page "/lifecycles"
+
+@inject BlazorApp1.Data.AppState AppState;
+
+
+<p>@messageText</p>
+
+<div>
+     @if ( isRendered ) {
+         <LifecycleInner Title="@titleText">
+
+         </LifecycleInner>
+     }
+    
+</div>
+
+
+@code {
+
+    string titleText { get; set; } = "Ez a belső component";
+
+    string messageText { get; set; }
+
+    bool isRendered { get; set; } = false;
+
+    protected override async Task OnAfterRenderAsync( bool first )
+    {
+        if ( !first )
+            return;
+
+        isRendered = true;
+
+        await base.OnAfterRenderAsync( first );
+        StateHasChanged( );
+
+    }
+
+    void AppStateHasChanged( )
+    {
+        messageText = AppState.CurrentState;
+        //a thread kezelés miatt kell itt InvokeAsync-ba tenni
+        InvokeAsync( ( ) => StateHasChanged( ) );
+    }
+
+    protected override void OnInitialized( )
+    {
+        AppState.OnChange += AppStateHasChanged;
+    }
+
+    public void Dispose( )
+    {
+        AppState.OnChange -= AppStateHasChanged;
+    }
+
+} 
