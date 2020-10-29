@@ -1,0 +1,131 @@
+﻿@page "/validation"
+@using System.ComponentModel.DataAnnotations
+@* This Using is for the model class attributes only *@
+@* The Id parameters are not mandatory for validation, they just show better forms integration *@
+
+<EditForm Model="@person" OnValidSubmit="@HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <p class="name">
+        <label for="nameTextbox">Name:</label>
+        <TelerikTextBox @bind-Value="@person.Name" Id="nameTextbox"></TelerikTextBox>
+        <ValidationMessage For="@(() => person.Name)"></ValidationMessage>
+    </p>
+    <p class="role">
+        <label for="roleAutoComplete">Role:</label>
+        <TelerikAutoComplete Data="@RoleSuggestions" @bind-Value="@person.Role" Id="roleAutoComplete"
+                             Placeholder="Enter your role (can be free text)" ClearButton="true" />
+        <ValidationMessage For="@(() => person.Role)"></ValidationMessage>
+    </p>
+    <p class="height">
+        <label for="heightNumeric">Height (cm):</label>
+        <TelerikNumericTextBox @bind-Value="@person.Height" Id="heightNumeric" />
+        <ValidationMessage For="@(() => person.Height)"></ValidationMessage>
+    </p>
+    <p class="birthday">
+        <label for="birthdayDateInput">Birthday:</label>
+        <TelerikDateInput @bind-Value="@person.Birthday" Format="dd MMMM yyyy" Id="birthdayDateInput"></TelerikDateInput>
+        <ValidationMessage For="@(() => person.Birthday)"></ValidationMessage>
+    </p>
+    <p class="favorite-day">
+        <label for="favDayDatePicker">Favorite date:</label>
+        <TelerikDatePicker @bind-Value="@person.FavoriteDay" Format="dd MMMM yyyy" Id="favDayDatePicker"></TelerikDatePicker>
+        <ValidationMessage For="@(() => person.FavoriteDay)"></ValidationMessage>
+    </p>
+    <p class="daily-scrum">
+        <label for="scrumTimePicker">Daily scrum:</label>
+        <TelerikTimePicker @bind-Value="@person.DailyScrum" Id="scrumTimePicker"></TelerikTimePicker>
+        <ValidationMessage For="@(() => person.DailyScrum)"></ValidationMessage>
+    </p>
+    <p class="start-time">
+        <label for="dayStartDateTimePicker">Start time:</label>
+        <TelerikDateTimePicker Format="G" @bind-Value="@person.StartTime" Width="250px" Id="dayStartDateTimePicker"></TelerikDateTimePicker>
+        <ValidationMessage For="@(() => person.StartTime)"></ValidationMessage>
+    </p>
+    @*<p class="personal-notes">
+            <label for="personalNotes">Personal Notes:</label>
+            <TelerikTextArea @bind-Value="@person.PersonalNotes" Id="personalNotes"></TelerikTextArea>
+            <ValidationMessage For="@(() => person.PersonalNotes)"></ValidationMessage>
+        </p>
+        <p class="accepts-terms">
+            <label class="k-checkbox-label" for="acceptTermsCheckbox">Accepts terms</label>
+            <TelerikCheckBox @bind-Value="@person.AcceptsTerms" Id="acceptTermsCheckbox"></TelerikCheckBox>
+            <ValidationMessage For="@(() => person.AcceptsTerms)"></ValidationMessage>
+        </p>
+        <p class="subscribe-mail">
+            <label>
+                Newsletter subscription
+                <TelerikSwitch @bind-Value="@person.SubscribeToNewsletter"></TelerikSwitch>
+            </label>
+            <ValidationMessage For="@(() => person.SubscribeToNewsletter)"></ValidationMessage>
+        </p>*@
+
+    <TelerikButton ButtonType="@ButtonType.Submit">Submit</TelerikButton>
+</EditForm>
+
+@code {
+    // Usually this class would be in a different file
+    public class Person
+    {
+        [Required( ErrorMessage = "Enter a name" )]
+        [StringLength( 10, ErrorMessage = "That name is too long" )]
+        public string Name { get; set; }
+
+        [Required]
+        [StringLength( 15, ErrorMessage = "That role name is too long, use abbreviations" )]
+        public string Role { get; set; }
+
+        [Required( ErrorMessage = "Provide your height in centimeters" )]
+        [Range( 1, 300, ErrorMessage = "Nobody is that tall" )]
+        public int? Height { get; set; }
+
+        [Required]
+        [Range( typeof( DateTime ), "1/1/1900", "1/12/2000",
+            ErrorMessage = "Value for {0} must be between {1:dd MMM yyyy} and {2:dd MMM yyyy}" )]
+        public DateTime Birthday { get; set; }
+
+        [Required]
+        [Range( typeof( DateTime ), "1/1/1999", "1/12/2019",
+            ErrorMessage = "Value for {0} must be between {1:dd MMM yyyy} and {2:dd MMM yyyy}" )]
+        [Display( Name = "Your Favourite Day" )]
+        public DateTime FavoriteDay { get; set; }
+
+        [Required( ErrorMessage = "The daily standup is required" )]
+        [Range( typeof( DateTime ), "1/1/1900 08:00:00", "1/1/1900 17:00:00",
+            ErrorMessage = "Time should be in business hours, between 8AM and 5 PM." )]
+        public DateTime? DailyScrum { get; set; }
+
+        [Required( ErrorMessage = "Enter a starting time" )]
+        [Range( typeof( DateTime ), "2018/11/1 10:00:00", "2025/12/22 17:00:00",
+            ErrorMessage = "Value for {0} must be between {1:dd MMM yyyy HH:mm} and {2:dd MMM yyyy HH:mm}" )]
+        public DateTime StartTime { get; set; }
+
+        //[Required]
+        //[Range( typeof( bool ), "true", "true", ErrorMessage = "Must accept terms" )]
+        //public bool AcceptsTerms { get; set; }
+
+        //[Required]
+        //[Range( typeof( bool ), "true", "true", ErrorMessage = "Must subscribe to the newsletter" )]
+        //public bool SubscribeToNewsletter { get; set; }
+
+        //[Required( ErrorMessage = "You should add a note." )]
+        //[MaxLength( 300, ErrorMessage = "Your notes are too long." )]
+        //public string PersonalNotes { get; set; }
+    }
+
+    Person person = new Person( )
+    {
+        // for time pickers, the initial date value must match the date portion of the range validation rule
+        //DailyScrum = new DateTime( 1900, 1, 1, 1, 1, 1 ),
+    };
+
+    void HandleValidSubmit( )
+    {
+        Console.WriteLine( "OnValidSubmit" );
+    }
+
+    List<string> RoleSuggestions { get; set; } = new List<string> {
+        "Manager", "Developer", "QA", "Technical Writer", "Support Engineer", "Sales Agent", "Architect", "Designer"
+    };
+}

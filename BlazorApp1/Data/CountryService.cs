@@ -1,3 +1,4 @@
+using BlazorApp1.Pages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,9 +41,17 @@ namespace BlazorApp1.Data
             return Task.FromResult( m_Countries.Where( x => x.ContinentId == continentId ).ToList( ) );
         }
 
+        private static int counter = 0;
+
         public Task<List<Country>> GetCountries()
         {
-            Thread.Sleep( 5000 );
+            Console.WriteLine( counter );
+            return Task.FromResult( m_Countries );
+        }
+
+        public Task<List<Country>> TestWaiting()
+        {
+            Thread.Sleep( 1500 );
             return Task.FromResult( m_Countries );
         }
     }

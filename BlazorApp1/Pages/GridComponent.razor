@@ -1,10 +1,11 @@
 ﻿@page "/grid"
 
 @using BlazorApp1.Data
-@inject CountryService CountryService
 
 <h3>Grid</h3>
 <div class="testDiv2">
+
+    <TelerikButton OnClick="@AddNewCountry">Add new country</TelerikButton>
 
     @if (Countries == null) {
     <div class="loader-container">
@@ -24,30 +25,7 @@
         </GridColumns>
     </TelerikGrid>
 
-
     }
 
 
 </div>
-
-
-@code {
-
-    System.Collections.ObjectModel.ObservableCollection<Country> Countries { get; set; }
-    //= new System.Collections.ObjectModel.ObservableCollection<Country>( );
-    //LoaderType LoaderType = LoaderType.Pulsing;
-
-    protected override async Task OnAfterRenderAsync( bool first )
-    {
-        Countries = new System.Collections.ObjectModel.ObservableCollection<Country>( );
-        var lista = await CountryService.GetCountries( );
-        foreach ( Country country in lista )
-            Countries.Add( country );
-
-        await base.OnAfterRenderAsync( first );
-
-        StateHasChanged( );
-    }
-    
-
-}
