@@ -36,9 +36,16 @@ namespace BlazorApp1.Data
             } );
         }
 
-        public Task<List<Country>> GetCountries( int continentId )
+
+        //Async is lehet, ha pl. DB-hez kell visszamenni
+        //public Task<List<Country>> GetCountries( int continentId )
+        //{
+        //    return Task.FromResult( m_Countries.Where( x => x.ContinentId == continentId ).ToList( ) );
+        //}
+
+        public List<Country> GetCountries(int continentId)
         {
-            return Task.FromResult( m_Countries.Where( x => x.ContinentId == continentId ).ToList( ) );
+            return m_Countries.Where(x => x.ContinentId == continentId).ToList();
         }
 
         private static int counter = 0;
