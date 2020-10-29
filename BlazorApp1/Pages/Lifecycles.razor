@@ -14,6 +14,8 @@
     
 </div>
 
+<TelerikButton OnClick="@ChangeParameter">Paraméter változtatás</TelerikButton>
+
 
 @code {
 
@@ -22,6 +24,13 @@
     string messageText { get; set; }
 
     bool isRendered { get; set; } = false;
+    private int counter = 0;
+
+    private void ChangeParameter()
+    {
+        counter++;
+        titleText = $"Új title {counter}";
+    }
 
     protected override async Task OnAfterRenderAsync( bool first )
     {

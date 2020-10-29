@@ -51,7 +51,7 @@ namespace BlazorApp1.Data
 
         public Task<List<Country>> TestWaiting()
         {
-            Thread.Sleep( 4000 );
+            Thread.Sleep( 1500 );
             return Task.FromResult( m_Countries );
         }
     }

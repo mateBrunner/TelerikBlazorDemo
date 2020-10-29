@@ -1,5 +1,6 @@
 ﻿@inject BlazorApp1.Data.CountryService CountryService
 @inject BlazorApp1.Data.AppState AppState
+@implements IDisposable
 
 <div class="lifecycleMainDiv">
 
@@ -14,13 +15,17 @@
     [Parameter]
     public string Title { get; set; }
 
+    //csak az első renderelés előtt fut le. Ha visszaadunk task-ot, akkor azt megvárja a render.
     public override async Task SetParametersAsync( ParameterView parameters )
     {
         AppState.SetState( $"SetParametersAsync, Title: {Title}" );
         await CountryService.TestWaiting( );
+
+        //ha ez nincs, nem állítódnak be a paraméterek, és nem hívódik meg a többi függvény
         await base.SetParametersAsync( parameters );
     }
 
+    //csak az első renderelés előtt fut le. Ha visszaadunk task-ot, akkor azt megvárja a render.
     protected override async Task OnInitializedAsync( )
     {
 
@@ -29,6 +34,8 @@
         await base.OnInitializedAsync( );
     }
 
+    //lefut az init után, vagy ha a parent újrarenderelődik, vagy megváltoznak az átadott paraméterek
+    // újra állítódnak a paraméterek
     protected override async Task OnParametersSetAsync( )
     {
         AppState.SetState( $"OnParametersSetAsync" );
@@ -36,6 +43,13 @@
         await base.OnParametersSetAsync( );
     }
 
+    //lefusson-e a renderelés. Ha false, egyszer akkor is lefut.
+    protected override bool ShouldRender( )
+    {
+        return true;
+    }
+
+    //renderelés után
     protected override async Task OnAfterRenderAsync( bool first )
     {
 
@@ -45,6 +59,10 @@
         await base.OnAfterRenderAsync( first );
     }
 
+    public void Dispose()
+    {
+        var a = 0;
+    }
 
 
 
