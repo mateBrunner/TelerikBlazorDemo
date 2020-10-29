@@ -1,9 +1,11 @@
 ﻿using BlazorApp1.Data;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace BlazorApp1.Pages
 {
@@ -48,6 +50,10 @@ namespace BlazorApp1.Pages
 
         }
 
+        protected void SaveComponentGUIState(string xml)
+        { 
+           //userid, xml elmegya db-ben;
+        }
 
     }
 }
