@@ -36,10 +36,18 @@
         await base.OnInitializedAsync( );
     }
 
-    async void ContinentSelected(int continentId)
+
+    //Async is lehet, ha pl. DB-hez kell visszamenni
+    //async void ContinentSelected(int continentId)
+    //{
+    //    Countries = await CountryService.GetCountries( continentId );
+    //    SelectedCountry = Countries[ 0 ];
+    //}
+
+    void ContinentSelected(int continentId)
     {
-        Countries = await CountryService.GetCountries( continentId );
-        SelectedCountry = Countries[ 0 ];
+        Countries = CountryService.GetCountries(continentId);
+        SelectedCountry = Countries[0];
     }
 
 }

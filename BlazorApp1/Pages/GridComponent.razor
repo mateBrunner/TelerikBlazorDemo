@@ -2,31 +2,52 @@
 
 @using BlazorApp1.Data
 
+ 
 <h3>Grid</h3>
 <div class="testDiv2">
 
     <TelerikButton OnClick="@AddNewCountry">Add new country</TelerikButton>
 
-    @if (Countries == null) {
-    <div class="loader-container">
-        <TelerikLoader Class="loader-indicator" Type="@LoaderType.InfiniteSpinner" Size="@LoaderSize.Small"></TelerikLoader>
-    </div>
-    } else {
-    <TelerikGrid Data="@Countries" Height="400px" Width="800px"
-                 Pageable="false" Sortable="true" Groupable="true"
-                 FilterMode="Telerik.Blazor.GridFilterMode.FilterRow"
-                 Resizable="true" Reorderable="true">
-        <GridColumns>
-            <GridColumn Field="@(nameof(Country.Id))" Width="120px" />
-            <GridColumn Field="@(nameof(Country.Name))" Title="Name" Groupable="false" />
-            <GridColumn Field="@(nameof(Country.ContinentName))" Title="Continent" />
-            <GridColumn Field="@(nameof(Country.Continent))" Title="ContinentEnum" />
-            <GridColumn Field="@(nameof(Country.Population))" Title="Population" />
-            <GridColumn Field="@(nameof(Country.Size))" Title="Size" />
-        </GridColumns>
-    </TelerikGrid>
+    @if (Countries == null)
+    {
+        <div class="loader-container">
+            <TelerikLoader Class="loader-indicator" Type="@LoaderType.InfiniteSpinner" Size="@LoaderSize.Small"></TelerikLoader>
+        </div>
+    }
+    else
+    {
+        <TelerikGrid Data="@Countries" Height="400px" Width="800px"
+                     Pageable="false" Sortable="true" Groupable="true"
+                     FilterMode="Telerik.Blazor.GridFilterMode.FilterRow"
+                     Resizable="true" Reorderable="true">
+            <GridColumns>
+                <GridColumn Field="@(nameof(Country.Id))" Width="120px" OnCellRender="@OnCellRenderHandler"/>
+                <GridColumn Field="@(nameof(Country.Name))" Title="Name" Groupable="false" />
+                <GridColumn Field="@(nameof(Country.ContinentName))" Title="Continent" />
+                <GridColumn Field="@(nameof(Country.Population))" Title="Population" />
+                <GridColumn Field="@(nameof(Country.Size))" Title="Size" />
+            </GridColumns>
+        </TelerikGrid>
 
     }
 
 
 </div>
+
+@code {
+
+    //Telerik-es eventhandler, Telerik enumok, stb.
+
+    void OnCellRenderHandler(GridCellRenderEventArgs args)
+    {
+        var item = args.Item as Country;
+
+        if (item.Id == 2)
+        {
+            args.Class = "background-red";
+        }
+
+        
+    }
+
+}
