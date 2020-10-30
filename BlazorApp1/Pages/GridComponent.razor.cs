@@ -20,12 +20,14 @@ namespace BlazorApp1.Pages
         CountryService m_Service { get; set; }
 
         System.Collections.ObjectModel.ObservableCollection<Country> Countries { get; set; }
+        List<Continent> Continents { get; set; } = new List<Continent>( );
+        int SelectedContinentId { get; set; } = 0;
         //= new System.Collections.ObjectModel.ObservableCollection<Country>( );
         //LoaderType LoaderType = LoaderType.Pulsing;
 
         protected override async Task OnInitializedAsync( )
         {
-
+            Continents = await m_Service.GetContinents( );
             await base.OnInitializedAsync( );
         }
 

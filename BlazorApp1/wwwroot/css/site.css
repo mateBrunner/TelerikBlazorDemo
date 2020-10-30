@@ -13,6 +13,10 @@ a, .btn-link {
     font-size: 20px;
 }
 
+.headerCombo {
+    z-index: 100;
+}
+
 .testDiv {
     font-size: 17px;
     margin: 5px 0 0 0;

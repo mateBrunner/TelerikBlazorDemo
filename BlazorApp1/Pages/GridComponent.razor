@@ -18,13 +18,20 @@
     {
         <TelerikGrid Data="@Countries" Height="400px" Width="800px"
                      Pageable="false" Sortable="true" Groupable="true"
-                     FilterMode="Telerik.Blazor.GridFilterMode.FilterRow"
+                     FilterMode="Telerik.Blazor.GridFilterMode.FilterMenu"
                      Resizable="true" Reorderable="true">
             <GridColumns>
                 <GridColumn Field="@(nameof(Country.Id))" Width="120px" OnCellRender="@OnCellRenderHandler"/>
-                <GridColumn Field="@(nameof(Country.Name))" Title="Name" Groupable="false" />
-                <GridColumn Field="@(nameof(Country.ContinentName))" Title="Continent" />
-                <GridColumn Field="@(nameof(Country.Continent))" Title="ContinentName" />
+                <GridColumn Field="@(nameof(Country.Name))" Title="Name" Groupable="false" Filterable="false"/>
+                <GridColumn Field="@(nameof(Country.ContinentName))">
+                    <HeaderTemplate>
+                        Continent<br />
+                        <TelerikComboBox Data="@Continents" Filterable="true" class="headerCombo"
+                            @bind-Value="@SelectedContinentId"
+                            TextField="Name" ValueField="Id">
+                        </TelerikComboBox>
+                    </HeaderTemplate>
+                </GridColumn>
                 <GridColumn Field="@(nameof(Country.Population))" Title="Population" />
                 <GridColumn Field="@(nameof(Country.Size))" Title="Size" />
             </GridColumns>

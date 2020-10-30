@@ -13,8 +13,9 @@
         </TelerikComboBox>*@
 
     <TelerikComboBox Data="@Continents" Value="@SelectedCountry.ContinentId"
+                     Filterable="true"
                      TextField="@nameof(Continent.Name)" ValueField="@nameof(Continent.Id)"
-                     ValueChanged="@( (int c) => ContinentSelected(c) )" PlaceHolder="Válassz kontinenst">
+                     ValueChanged="@( (int c) => ContinentSelected(c) )" >
     </TelerikComboBox>
 
     <TelerikComboBox Data="@Countries" Value="@SelectedCountry.Id"
