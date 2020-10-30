@@ -24,6 +24,7 @@
                 <GridColumn Field="@(nameof(Country.Id))" Width="120px" OnCellRender="@OnCellRenderHandler"/>
                 <GridColumn Field="@(nameof(Country.Name))" Title="Name" Groupable="false" />
                 <GridColumn Field="@(nameof(Country.ContinentName))" Title="Continent" />
+                <GridColumn Field="@(nameof(Country.Continent))" Title="ContinentName" />
                 <GridColumn Field="@(nameof(Country.Population))" Title="Population" />
                 <GridColumn Field="@(nameof(Country.Size))" Title="Size" />
             </GridColumns>
