@@ -12,6 +12,7 @@ namespace BlazorApp1.Data
         public string Name { get; set; }
         public int ContinentId { get; set; }
         public string ContinentName { get { return ( (ContinentEnum)ContinentId ).ToString( ); } }
+        public ContinentEnum Continent { get; set; }
         public int Population { get; set; }
         public int Size { get; set; }
 

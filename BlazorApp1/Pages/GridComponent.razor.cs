@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Telerik.Blazor.Components;
 
 namespace BlazorApp1.Pages
 {
@@ -20,13 +21,21 @@ namespace BlazorApp1.Pages
         //= new System.Collections.ObjectModel.ObservableCollection<Country>( );
         //LoaderType LoaderType = LoaderType.Pulsing;
 
-        
+        protected override async Task OnInitializedAsync( )
+        {
+
+            await base.OnInitializedAsync( );
+        }
+
         protected override async Task OnAfterRenderAsync( bool first )
         {
             // ez kell, különben minden ui módosulás után lefut!! a paramétert a blazor állítja automatikusan
             if ( !first )
                 return;
 
+            //Azért érdemes a renderbe tenni, mert ha sok időbe tart a beolvasás, akkor itt 
+            //már megtörtént a komponens renderelése, feltehetünk loading indicatort. 
+            //Ha OnInitialized-ba tettük volna, akkor várjuk, hogy történjen valami.
             Countries = new System.Collections.ObjectModel.ObservableCollection<Country>( );
             var lista = await m_Service.GetCountries( );
             foreach ( Country country in lista )
@@ -47,6 +56,7 @@ namespace BlazorApp1.Pages
             } );
 
         }
+
 
 
     }
