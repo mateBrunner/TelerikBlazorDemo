@@ -14,6 +14,7 @@ using Microsoft.Extensions.Options;
 using System.Globalization;
 using Microsoft.AspNetCore.Localization;
 using Telerik.Blazor.Services;
+using Microsoft.Extensions.Localization;
 
 namespace BlazorApp1
 {
@@ -43,9 +44,10 @@ namespace BlazorApp1
                     new CultureInfo("de-DE"),
                     new CultureInfo("es-ES"),
                     new CultureInfo("bg-BG"),
+                    new CultureInfo("hu-HU"),
                 };
 
-                options.DefaultRequestCulture = new RequestCulture( "de-DE" );
+                options.DefaultRequestCulture = new RequestCulture( "hu-HU" );
                 options.SupportedCultures = supportedCultures;
                 options.SupportedUICultures = supportedCultures;
             } );

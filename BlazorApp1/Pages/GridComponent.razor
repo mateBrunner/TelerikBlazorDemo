@@ -1,14 +1,17 @@
 ﻿@page "/grid"
 
 @using BlazorApp1.Data
+@inject IStringLocalizer<GridComponent> localizer
 
- 
+
+
 <h3>Grid</h3>
 <div class="testDiv2">
 
+    <p>@localizer[ "testString" ]</p>
     <TelerikButton OnClick="@AddNewCountry">Add new country</TelerikButton>
 
-    @if (Countries == null)
+    @if ( Countries == null )
     {
         <div class="loader-container">
             <TelerikLoader Class="loader-indicator" Type="@LoaderType.InfiniteSpinner" Size="@LoaderSize.Small"></TelerikLoader>
@@ -21,14 +24,14 @@
                      FilterMode="Telerik.Blazor.GridFilterMode.FilterMenu"
                      Resizable="true" Reorderable="true">
             <GridColumns>
-                <GridColumn Field="@(nameof(Country.Id))" Width="120px" OnCellRender="@OnCellRenderHandler"/>
-                <GridColumn Field="@(nameof(Country.Name))" Title="Name" Groupable="false" Filterable="false"/>
+                <GridColumn Field="@(nameof(Country.Id))" Width="120px" OnCellRender="@OnCellRenderHandler" />
+                <GridColumn Field="@(nameof(Country.Name))" Title="Name" Groupable="false" Filterable="false" />
                 <GridColumn Field="@(nameof(Country.ContinentName))">
                     <HeaderTemplate>
                         Continent<br />
                         <TelerikComboBox Data="@Continents" Filterable="true" class="headerCombo"
-                            @bind-Value="@SelectedContinentId"
-                            TextField="Name" ValueField="Id">
+                                         @bind-Value="@SelectedContinentId"
+                                         TextField="Name" ValueField="Id">
                         </TelerikComboBox>
                     </HeaderTemplate>
                 </GridColumn>
@@ -46,16 +49,16 @@
 
     //Telerik-es eventhandler, Telerik enumok, stb.
 
-    void OnCellRenderHandler(GridCellRenderEventArgs args)
+    void OnCellRenderHandler( GridCellRenderEventArgs args )
     {
         var item = args.Item as Country;
 
-        if (item.Id == 2)
+        if ( item.Id == 2 )
         {
             args.Class = "background-red";
         }
 
-        
+
     }
 
 }
