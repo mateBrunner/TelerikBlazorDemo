@@ -17,6 +17,8 @@ using Telerik.Blazor.Services;
 using Microsoft.Extensions.Localization;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Server.IIS;
+using System.Text;
 
 namespace BlazorApp1
 {
@@ -66,7 +68,14 @@ namespace BlazorApp1
             services.AddSingleton<AppState>( );
 
             services.AddScoped<AuthenticationStateProvider, WinAuthStateProvider>( );
+            
+            
+           services.AddAuthentication( IISServerDefaults.AuthenticationScheme );
+
+
             services.AddTransient<IClaimsTransformation, ClaimsTransformationService>( );
+            
+
             services.AddAuthorizationCore( );
         }
 
@@ -94,6 +103,9 @@ namespace BlazorApp1
             app.UseStaticFiles( );
 
             app.UseRouting( );
+
+            app.UseAuthorization();
+            app.UseAuthentication();
 
             app.UseEndpoints( endpoints =>
              {
