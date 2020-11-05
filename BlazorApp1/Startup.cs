@@ -62,6 +62,12 @@ namespace BlazorApp1
             services.AddSingleton( typeof( ITelerikStringLocalizer ), typeof( SampleResxLocalizer ) );
             services.AddSingleton<CountryService>( );
             services.AddSingleton<AppState>( );
+
+            services.AddHttpClient<IProductService, ProductService>( client =>
+            {
+                client.BaseAddress = new Uri("https://localhost:44340/");
+            } );
+            services.AddAuthorizationCore( );
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

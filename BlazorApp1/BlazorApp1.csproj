@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="3.1.9" />
     <PackageReference Include="Microsoft.Extensions.Localization" Version="3.1.9" />
     <PackageReference Include="Telerik.UI.for.Blazor.Trial" Version="2.18.0" />
   </ItemGroup>
