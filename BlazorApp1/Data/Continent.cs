@@ -19,4 +19,5 @@ namespace BlazorApp1.Data
         EURÓPA = 2,
         ÁZSIA = 3
     }
+
 }

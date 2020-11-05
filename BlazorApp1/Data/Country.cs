@@ -10,10 +10,13 @@ namespace BlazorApp1.Data
 
         public int Id { get; set; }
         public string Name { get; set; }
+        //public Continent Continent { get; set; }
         public int ContinentId { get; set; }
-        public string ContinentName { get { return ( (ContinentEnum)ContinentId ).ToString( ); } }
+        public string ContinentName { get { return m_continentStrings[ ContinentId - 1 ]; } }
         public int Population { get; set; }
         public int Size { get; set; }
+
+        private List<string> m_continentStrings = new List<string>( ) { "AMERIKA", "EURÓPA", "ÁZSIA" };
 
     }
 }

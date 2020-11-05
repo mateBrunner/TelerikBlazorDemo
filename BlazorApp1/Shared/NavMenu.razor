@@ -1,5 +1,6 @@
 ﻿@using System.Threading
 @inject NavigationManager NavigationManager
+@inject IStringLocalizer<NavMenu> localizer
 
 <div class="top-row pl-4 navbar navbar-dark">
     <a class="navbar-brand" href="">BlazorApp1</a>
@@ -11,16 +12,18 @@
 <div style="margin: 20px;">
     <TelerikDropDownList Data="@Cultures"
                          Value="@SelectedCulture"
-                         Width="100px"
+                         Width="150px"
                          ValueChanged="@((string value) => { OnValueChanged(value); })"
                          PopupHeight=""
                          TextField="@nameof(CultureData.Text)"
                          ValueField="@nameof(CultureData.Value)">
     </TelerikDropDownList>
-    @*<br />
-    Current UI culture (used for localization): @Thread.CurrentThread.CurrentUICulture.Name
     <br />
-    Current thread culture (used for date and number formatting): @Thread.CurrentThread.CurrentCulture.Name*@
+    <p style="color:white;">Current culture: @localizer[ "languageText" ]</p>
+    @*<br />
+        Current UI culture (used for localization): @Thread.CurrentThread.CurrentUICulture.Name
+        <br />
+        Current thread culture (used for date and number formatting): @Thread.CurrentThread.CurrentCulture.Name*@
 </div>
 
 <div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
@@ -92,12 +95,12 @@
     }
 
     public List<CultureData> Cultures { get; set; } = new List<CultureData>( )
-    {
+{
         new  CultureData() { Text = "English", Value = "en-US" },
-        new  CultureData() { Text = "Hungarian", Value = "hu-HU" },
-        new  CultureData() { Text = "Bulgarian", Value = "bg-BG" },
-        new  CultureData() { Text = "German", Value = "de-DE" },
-        new  CultureData() { Text = "Spanish", Value = "es-ES" }
+        new  CultureData() { Text = "Hungarian", Value = "hu-HU" }
+        //new  CultureData() { Text = "Bulgarian", Value = "bg-BG" },
+        //new  CultureData() { Text = "German", Value = "de-DE" },
+        //new  CultureData() { Text = "Spanish", Value = "es-ES" }
     };
 
     public string SelectedCulture { get; set; } = Thread.CurrentThread.CurrentUICulture.Name;
