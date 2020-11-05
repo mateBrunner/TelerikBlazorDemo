@@ -15,7 +15,7 @@ namespace BlazorApp1
             //Getting logged in windows user name
             var user = System.Security.Principal.WindowsIdentity.GetCurrent( ).Name;
             //Logic for fetching role from DB — Here you can get other details abou user from DB also
-            string role = "user";
+            string role = "super-user2";
             //Generating new Authentication state with claims if user have any role
             if ( role != "" && role != null)
             {

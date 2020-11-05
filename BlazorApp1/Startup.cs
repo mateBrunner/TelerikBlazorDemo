@@ -15,6 +15,7 @@ using System.Globalization;
 using Microsoft.AspNetCore.Localization;
 using Telerik.Blazor.Services;
 using Microsoft.Extensions.Localization;
+using Microsoft.AspNetCore.Components.Authorization;
 
 namespace BlazorApp1
 {
@@ -63,10 +64,8 @@ namespace BlazorApp1
             services.AddSingleton<CountryService>( );
             services.AddSingleton<AppState>( );
 
-            services.AddHttpClient<IProductService, ProductService>( client =>
-            {
-                client.BaseAddress = new Uri("https://localhost:44340/");
-            } );
+            services.AddScoped<AuthenticationStateProvider, WinAuthStateProvider>( );
+
             services.AddAuthorizationCore( );
         }
 
