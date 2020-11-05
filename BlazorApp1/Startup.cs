@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Localization;
 using Telerik.Blazor.Services;
 using Microsoft.Extensions.Localization;
 using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.AspNetCore.Authentication;
 
 namespace BlazorApp1
 {
@@ -65,7 +66,7 @@ namespace BlazorApp1
             services.AddSingleton<AppState>( );
 
             services.AddScoped<AuthenticationStateProvider, WinAuthStateProvider>( );
-
+            services.AddTransient<IClaimsTransformation, ClaimsTransformationService>( );
             services.AddAuthorizationCore( );
         }
 
