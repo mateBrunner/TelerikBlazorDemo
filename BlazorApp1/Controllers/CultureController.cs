@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace BlazorApp1.Controllers
 {
     [Route("[controller]/[action]")]
-    [Authorize(AuthenticationSchemes = IISServerDefaults.AuthenticationScheme, Roles = "valami")]
+    [Authorize(AuthenticationSchemes = IISServerDefaults.AuthenticationScheme, Roles = "testRole")]
     public class CultureController : Controller
     {
         public IActionResult SetCulture(string culture, string redirectUri)

@@ -70,7 +70,7 @@ namespace BlazorApp1
 
             services.AddAuthentication( IISServerDefaults.AuthenticationScheme );
             services.AddAuthorization( );
-            services.AddScoped<AuthenticationStateProvider, WinAuthStateProvider>( );
+            //services.AddScoped<AuthenticationStateProvider, WinAuthStateProvider>( );
             services.AddTransient<IClaimsTransformation, ClaimsTransformationService>( );
             
         }

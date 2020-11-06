@@ -40,7 +40,7 @@ namespace BlazorApp1
         public Task<ClaimsPrincipal> TransformAsync( ClaimsPrincipal principal )
         {
             ClaimsIdentity claimsIdentity = (ClaimsIdentity)principal.Identity;
-            Claim claim = new Claim( claimsIdentity.RoleClaimType, "valami" );
+            Claim claim = new Claim( claimsIdentity.RoleClaimType, "testRole" );
 
             if ( !claimsIdentity.Claims.Contains( claim ) )
             {
@@ -67,7 +67,7 @@ namespace BlazorApp1
                         // kérjük el a Windows usert
                         var windowsUser = (WindowsIdentity)principal.Identity;
                         // benne van-e a user a szükséges csoportban?
-                        bool isUserInADCsoport = IsInGroup( windowsUser, "CsoportNev" );
+                        bool isUserInADCsoport = IsInGroup( windowsUser, "GEO\\Domain Users" );
                         // ha nincs benne a user a szükséges csoportban
                         //if ( !isUserInADCsoport )
                         //{

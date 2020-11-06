@@ -1,89 +1,91 @@
 ﻿@page "/grid"
-
+@attribute [Authorize( Roles = "testRolee" )]
 @using BlazorApp1.Data
 
-<h3>Grid</h3>
-<div class="testDiv2">
+<AuthorizeView Roles="testRole">
+    <h3>Grid</h3>
+    <div class="testDiv2">
 
-    <TelerikButton OnClick="@AddNewCountry">Add new country</TelerikButton>
+        <TelerikButton OnClick="@AddNewCountry">Add new country</TelerikButton>
 
-    @if ( Countries == null )
-    {
-        <div class="loader-container">
-            <TelerikLoader Class="loader-indicator" Type="@LoaderType.InfiniteSpinner" Size="@LoaderSize.Small"></TelerikLoader>
-        </div>
-    }
-    else
-    {
-    <TelerikGrid Data="@Countries" Height="400px" Width="800px"
-                 Pageable="true" Sortable="true" Reorderable="false"
-                 EditMode="@GridEditMode.Inline"
-                 FilterMode="Telerik.Blazor.GridFilterMode.FilterMenu"
-                 OnUpdate="@UpdateHandler" OnEdit="@EditHandler" OnDelete="@DeleteHandler" 
-                 OnCreate="@CreateHandler" OnCancel="@CancelHandler">
-        <GridColumns>
-
-            <GridColumn Field="@(nameof(Country.Id))" Width="120px" OnCellRender="@OnCellRenderHandler" />
-            <GridColumn Field="@(nameof(Country.Name))" Title="Name" Groupable="false" Filterable="false" />
-            <GridColumn Field="@(nameof(Country.ContinentId))">
-                <HeaderTemplate>
-                    Continent<br />
-                    <div @onclick:stopPropagation="true">
-                        <TelerikComboBox Data="@Continents" Filterable="true" class="headerCombo"
-                                         @bind-Value="@SelectedContinentId"
-                                         TextField="@nameof(Continent.Name)" ValueField="@nameof(Continent.Id)">
-                        </TelerikComboBox>
-                    </div>
-                </HeaderTemplate>
-                <EditorTemplate>
-                    @{
-                            CurrentlyEditedCountry = context as Country;
-                        <TelerikComboBox Data="@Continents" TextField="@nameof(Continent.Name)"
-                                         ValueField="@nameof(Continent.Id)"
-                                         @bind-Value="@CurrentlyEditedCountry.ContinentId">
-                        </TelerikComboBox>
-                    }
-                </EditorTemplate>
-                <Template>
-                    @{
-                        // a Template is used to show the foreign key data that is user-friendly
-                        int continentId = ( context as Country ).ContinentId;
-                            Continent matchingPos = Continents.FirstOrDefault( r => r.Id == continentId );
-                            string textToRender = matchingPos != null ? matchingPos.Name : "Unknown";
-                        <text>@textToRender</text>
-                    }
-                </Template>
-            </GridColumn>
-            <GridColumn Field="@(nameof(Country.Population))" Title="Population" />
-            <GridColumn Field="@(nameof(Country.Size))" Title="Size" />
-            <GridCommandColumn>
-                <GridCommandButton Command="Save" Icon="save" ShowInEdit="true">Update</GridCommandButton>
-                <GridCommandButton Command="Edit" Icon="edit">Edit</GridCommandButton>
-                <GridCommandButton Command="Delete" Icon="delete">Delete</GridCommandButton>
-                <GridCommandButton Command="Cancel" Icon="cancel" ShowInEdit="true">Cancel</GridCommandButton>
-            </GridCommandColumn>
-        </GridColumns>
-    </TelerikGrid>
-
-    }
-
-
-</div>
-
-@code {
-
-    //Telerik-es eventhandler, Telerik enumok, stb.
-
-    void OnCellRenderHandler( GridCellRenderEventArgs args )
-    {
-        var item = args.Item as Country;
-
-        if ( item.Id == 2 )
+        @if ( Countries == null )
         {
-            args.Class = "background-red";
+            <div class="loader-container">
+                <TelerikLoader Class="loader-indicator" Type="@LoaderType.InfiniteSpinner" Size="@LoaderSize.Small"></TelerikLoader>
+            </div>
+        }
+        else
+        {
+            <TelerikGrid Data="@Countries" Height="400px" Width="800px"
+                         Pageable="true" Sortable="true" Reorderable="false"
+                         EditMode="@GridEditMode.Inline"
+                         FilterMode="Telerik.Blazor.GridFilterMode.FilterMenu"
+                         OnUpdate="@UpdateHandler" OnEdit="@EditHandler" OnDelete="@DeleteHandler"
+                         OnCreate="@CreateHandler" OnCancel="@CancelHandler">
+                <GridColumns>
+
+                    <GridColumn Field="@(nameof(Country.Id))" Width="120px" OnCellRender="@OnCellRenderHandler" />
+                    <GridColumn Field="@(nameof(Country.Name))" Title="Name" Groupable="false" Filterable="false" />
+                    <GridColumn Field="@(nameof(Country.ContinentId))">
+                        <HeaderTemplate>
+                            Continent<br />
+                            <div @onclick:stopPropagation="true">
+                                <TelerikComboBox Data="@Continents" Filterable="true" class="headerCombo"
+                                                 @bind-Value="@SelectedContinentId"
+                                                 TextField="@nameof(Continent.Name)" ValueField="@nameof(Continent.Id)">
+                                </TelerikComboBox>
+                            </div>
+                        </HeaderTemplate>
+                        <EditorTemplate Context="another_name">
+                            @{
+                                CurrentlyEditedCountry = another_name as Country;
+                                <TelerikComboBox Data="@Continents" TextField="@nameof(Continent.Name)"
+                                                 ValueField="@nameof(Continent.Id)"
+                                                 @bind-Value="@CurrentlyEditedCountry.ContinentId">
+                                </TelerikComboBox>
+                            }
+                        </EditorTemplate>
+                        <Template Context="another_name">
+                            @{
+                                // a Template is used to show the foreign key data that is user-friendly
+                                int continentId = ( another_name as Country ).ContinentId;
+                                Continent matchingPos = Continents.FirstOrDefault( r => r.Id == continentId );
+                                string textToRender = matchingPos != null ? matchingPos.Name : "Unknown";
+                                <text>@textToRender</text>
+                            }
+                        </Template>
+                    </GridColumn>
+                    <GridColumn Field="@(nameof(Country.Population))" Title="Population" />
+                    <GridColumn Field="@(nameof(Country.Size))" Title="Size" />
+                    <GridCommandColumn>
+                        <GridCommandButton Command="Save" Icon="save" ShowInEdit="true">Update</GridCommandButton>
+                        <GridCommandButton Command="Edit" Icon="edit">Edit</GridCommandButton>
+                        <GridCommandButton Command="Delete" Icon="delete">Delete</GridCommandButton>
+                        <GridCommandButton Command="Cancel" Icon="cancel" ShowInEdit="true">Cancel</GridCommandButton>
+                    </GridCommandColumn>
+                </GridColumns>
+            </TelerikGrid>
+
         }
 
 
-    }
+    </div>
 
-}
+</AuthorizeView>
+    @code {
+
+        //Telerik-es eventhandler, Telerik enumok, stb.
+
+        void OnCellRenderHandler( GridCellRenderEventArgs args )
+        {
+            var item = args.Item as Country;
+
+            if ( item.Id == 2 )
+            {
+                args.Class = "background-red";
+            }
+
+
+        }
+
+    }
