@@ -17,6 +17,9 @@ using Telerik.Blazor.Services;
 using Microsoft.Extensions.Localization;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Server.IISIntegration;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Server.IIS;
 
 namespace BlazorApp1
 {
@@ -65,9 +68,11 @@ namespace BlazorApp1
             services.AddSingleton<CountryService>( );
             services.AddSingleton<AppState>( );
 
+            services.AddAuthentication( IISServerDefaults.AuthenticationScheme );
+            services.AddAuthorization( );
             services.AddScoped<AuthenticationStateProvider, WinAuthStateProvider>( );
             services.AddTransient<IClaimsTransformation, ClaimsTransformationService>( );
-            services.AddAuthorizationCore( );
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -94,6 +99,9 @@ namespace BlazorApp1
             app.UseStaticFiles( );
 
             app.UseRouting( );
+
+            app.UseAuthentication( );
+            app.UseAuthorization( );
 
             app.UseEndpoints( endpoints =>
              {

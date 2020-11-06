@@ -3,10 +3,15 @@ using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Http;
 using System.Globalization;
 using System.Threading;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Server.IIS;
+using System.Net;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BlazorApp1.Controllers
 {
     [Route("[controller]/[action]")]
+    [Authorize(AuthenticationSchemes = IISServerDefaults.AuthenticationScheme, Roles = "valami")]
     public class CultureController : Controller
     {
         public IActionResult SetCulture(string culture, string redirectUri)
