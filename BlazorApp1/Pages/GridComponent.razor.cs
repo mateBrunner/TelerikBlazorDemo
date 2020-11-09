@@ -1,8 +1,10 @@
 ﻿using BlazorApp1.Data;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.SignalR;
+using PropertyChanged;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
@@ -10,20 +12,38 @@ using Telerik.Blazor.Components;
 
 namespace BlazorApp1.Pages
 {
+
+    
     //ahányszor megnyitjuk a komponenst, új példány készül a classból
-    public partial class GridComponent
+    public partial class GridComponent: INotifyPropertyChanged
     {
 
         // így tudunk DI-t csinálni, de ezt a hivatkozást akár a html-ben is hagyhatnánk
         // service-ből csak egy példány készül összesen
         [Inject]
         CountryService m_Service { get; set; }
-
+        
         List<Country> Countries { get; set; }
+        IEnumerable<Country> IE_Countries { get; set; }
         List<Continent> Continents { get; set; } = new List<Continent>( );
         Country CurrentlyEditedCountry { get; set; }
-        List<string> ContinentStrings { get; set; } = new List<string>( ) { "AMERIKA", "EURÓPA", "ÁZSIA" };
+        List<string> ContinentStrings { get; set; } = new List<string>( ) { "AMERIKA", "EURÓPA", "ÁZSIA" };        
+
         int SelectedContinentId { get; set; } = 0;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public void OnPropertyChanged(string propertyName, object before, object after)
+        {
+            if (propertyName == "SelectedContinentId")
+            {
+                IE_Countries = Countries.Where(x => x.ContinentId == (int)after);
+                StateHasChanged();
+            }
+        }
+
+
+
         //= new System.Collections.ObjectModel.ObservableCollection<Country>( );
         //LoaderType LoaderType = LoaderType.Pulsing;
 
@@ -44,6 +64,7 @@ namespace BlazorApp1.Pages
             //Ha OnInitialized-ba tettük volna, akkor várjuk, hogy történjen valami.
             //Countries = new System.Collections.ObjectModel.ObservableCollection<Country>( );
             Countries = await m_Service.GetCountries( );
+            IE_Countries = Countries;
             //foreach ( Country country in lista )
             //    Countries.Add( country );
 

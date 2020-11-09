@@ -1,5 +1,5 @@
 ﻿@page "/grid"
-@attribute [Authorize( Roles = "testRolee" )]
+@attribute [Authorize( Roles = "testRole" )]
 @using BlazorApp1.Data
 
 <AuthorizeView Roles="testRole">
@@ -16,8 +16,8 @@
         }
         else
         {
-            <TelerikGrid Data="@Countries" Height="400px" Width="800px"
-                         Pageable="true" Sortable="true" Reorderable="false"
+            <TelerikGrid Data="@IE_Countries" Height="400px" Width="800px"
+                         Pageable="true" Sortable="true" Reorderable="false" Resizable="true"
                          EditMode="@GridEditMode.Inline"
                          FilterMode="Telerik.Blazor.GridFilterMode.FilterMenu"
                          OnUpdate="@UpdateHandler" OnEdit="@EditHandler" OnDelete="@DeleteHandler"

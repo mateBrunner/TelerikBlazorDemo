@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,6 +20,8 @@ namespace BlazorApp1
         #region Private fields
 
         private readonly NLog.ILogger m_Logger;
+        private NLog.ILogger m_Logger2 = LogManager.GetCurrentClassLogger();
+        private DateTime m_testDateTime;
         //private readonly IToken m_Token;
         //private readonly KOFTablazasAdatbetoltoSettings m_KOFTablazasAdatbetoltoSettings;
         //private readonly ICache m_Cache;
@@ -32,6 +35,8 @@ namespace BlazorApp1
                                            )
         {
             m_Logger = logger;
+            m_testDateTime = DateTime.Now;
+
             //m_Token = token;
             //m_KOFTablazasAdatbetoltoSettings = kofTablazasAdatbetoltoSettingsAccessor.Value;
             //m_Cache = cache;
@@ -42,6 +47,9 @@ namespace BlazorApp1
         {
             ClaimsIdentity claimsIdentity = (ClaimsIdentity)principal.Identity;
             Claim claim = new Claim( claimsIdentity.RoleClaimType, "testRole" );
+
+            m_Logger.Info(m_testDateTime);
+            m_Logger2.Info(m_testDateTime);
 
             if ( !claimsIdentity.Claims.Contains( claim ) )
             {
@@ -82,11 +90,11 @@ namespace BlazorApp1
 
                     // ha a geometa ismeri a usert és benne van a szükséges groupban
                     //if ( geometaUser != null && geometaUser.Sikeres )
-                    if ( isUserInADCsoport )
-                    {
+                    //if ( isUserInADCsoport )
+                    //{
                         // hozzáadjuk a szükséges jogot
                         claimsIdentity.AddClaim( claim );
-                    }
+                    //}
                 }
                 catch ( Exception ex )
                 {

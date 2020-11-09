@@ -72,7 +72,7 @@ namespace BlazorApp1
             services.AddSingleton( typeof( ITelerikStringLocalizer ), typeof( SampleResxLocalizer ) );
             services.AddSingleton<CountryService>( );
             services.AddSingleton<AppState>( );
-            services.AddTransient<NLog.ILogger>( serviceProvider =>
+            services.AddSingleton<NLog.ILogger>( serviceProvider =>
             {
                 return LogManager.GetCurrentClassLogger( );
             } );
@@ -80,7 +80,7 @@ namespace BlazorApp1
             services.AddAuthentication( IISServerDefaults.AuthenticationScheme );
             services.AddAuthorization( );
             //services.AddScoped<AuthenticationStateProvider, WinAuthStateProvider>( );
-            services.AddTransient<IClaimsTransformation, ClaimsTransformationService>( );
+            services.AddSingleton<IClaimsTransformation, ClaimsTransformationService>( );
             
         }
 
