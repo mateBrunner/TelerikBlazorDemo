@@ -7,6 +7,8 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="3.1.9" />
     <PackageReference Include="Microsoft.Extensions.Localization" Version="3.1.9" />
+    <PackageReference Include="NLog" Version="4.7.5" />
+    <PackageReference Include="NLog.Config" Version="4.7.5" />
     <PackageReference Include="Telerik.UI.for.Blazor.Trial" Version="2.18.0" />
   </ItemGroup>
 

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authentication;
+﻿using BlazorApp1.Data;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -17,14 +18,14 @@ namespace BlazorApp1
     {
         #region Private fields
 
-        private readonly ILogger<ClaimsTransformationService> m_Logger;
+        private readonly NLog.ILogger m_Logger;
         //private readonly IToken m_Token;
         //private readonly KOFTablazasAdatbetoltoSettings m_KOFTablazasAdatbetoltoSettings;
         //private readonly ICache m_Cache;
         #endregion
 
         #region Constructor
-        public ClaimsTransformationService( ILogger<ClaimsTransformationService> logger
+        public ClaimsTransformationService( NLog.ILogger logger
                                             //IToken token,
                                             //IOptions<KOFTablazasAdatbetoltoSettings> kofTablazasAdatbetoltoSettingsAccessor,
                                             //ICache cache 
@@ -89,7 +90,7 @@ namespace BlazorApp1
                 }
                 catch ( Exception ex )
                 {
-                    m_Logger.LogError( ex, $"Ismeretlen hiba történt a felhasználó azonosítása közben." );
+                    m_Logger.Error( ex, $"Ismeretlen hiba történt a felhasználó azonosítása közben." );
                 }
             }
             return Task.FromResult( principal );

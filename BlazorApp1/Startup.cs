@@ -20,6 +20,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Server.IISIntegration;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Server.IIS;
+using NLog;
 
 namespace BlazorApp1
 {
@@ -59,6 +60,10 @@ namespace BlazorApp1
 
             #endregion
 
+            //singleton: egyetlen példány készül belõle
+            //scoped: kliensenként (connection-önként) egy példány
+            //transient: mindig új példány
+
             // service-ek hozzáadása, pl: autentikáció, razor pages, mvc controller routing, stb...
             services.AddRazorPages( );
             services.AddTelerikBlazor( );
@@ -67,6 +72,10 @@ namespace BlazorApp1
             services.AddSingleton( typeof( ITelerikStringLocalizer ), typeof( SampleResxLocalizer ) );
             services.AddSingleton<CountryService>( );
             services.AddSingleton<AppState>( );
+            services.AddTransient<NLog.ILogger>( serviceProvider =>
+            {
+                return LogManager.GetCurrentClassLogger( );
+            } );
 
             services.AddAuthentication( IISServerDefaults.AuthenticationScheme );
             services.AddAuthorization( );
