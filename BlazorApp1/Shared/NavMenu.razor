@@ -89,6 +89,9 @@
 
     private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
 
+    [Parameter]
+    public string Valami { get; set; }
+
     bool isAuthenticated = false;
     string userName;
     string role;
