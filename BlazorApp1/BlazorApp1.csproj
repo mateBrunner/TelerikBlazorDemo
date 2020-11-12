@@ -37,4 +37,8 @@
         </EmbeddedResource>
     </ItemGroup>
 
+    <ItemGroup>
+      <None Include="wwwroot\js\script.js" />
+    </ItemGroup>
+
 </Project>

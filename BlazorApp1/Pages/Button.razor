@@ -1,4 +1,5 @@
 ﻿@page "/button"
+@inject IJSRuntime jsRuntime
 
 <h3>Button</h3>
 <div>
@@ -10,8 +11,16 @@
     @CounterText
 </div>
 
+<br />
+<button @onclick="ShowAlert" @ref="AlertButton">Show Alert</button>
+<br />
+<button @onclick="CallCsharp">Call c#</button>
+<button @onclick="CallGridJsFunction">Call local js</button>
+
 
 @code {
+
+    ElementReference AlertButton;
 
     public string CounterText { get; set; }
     private int counter = 0;
@@ -20,6 +29,33 @@
     {
         counter++;
         CounterText = $"A gombra kattintottál {counter} alkalommal.";
+    }
+
+    string message = "aladár";
+
+    private async void CallGridJsFunction()
+    {
+        //await jsRuntime.InvokeAsync<IJSObjectReference>( "GridJsFunction", message );
+    }
+
+    //csak meghívjuk a js-t
+    private async Task ShowAlert( )
+    {
+        string res = await jsRuntime.InvokeAsync<string>( "ShowAlert", message, AlertButton );
+    }
+
+    //meghívunk egy js-t, ami visszahívja a c#-ot
+    private async Task CallCsharp( )
+    {
+        await jsRuntime.InvokeVoidAsync( "WriteCSharpMessageToConsole", DotNetObjectReference.Create( this ) );
+    }
+
+    //a visszahívott c#
+    [JSInvokable]
+    public Task<string> GetHelloMessage( )
+    {
+        var message = "Hello from a C# instance";
+        return Task.FromResult( message );
     }
 
 }
