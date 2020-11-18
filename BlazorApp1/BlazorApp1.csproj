@@ -38,6 +38,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <None Include="wwwroot\js\Button.razor.js" />
       <None Include="wwwroot\js\script.js" />
     </ItemGroup>
 

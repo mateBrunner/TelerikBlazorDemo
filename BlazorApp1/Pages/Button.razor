@@ -1,61 +1,93 @@
 ﻿@page "/button"
 @inject IJSRuntime jsRuntime
+@using System.Threading.Tasks;
 
-<h3>Button</h3>
-<div>
-    <TelerikButton class="primaryButton" OnClick="@OnClick">
-        Click me!
-    </TelerikButton>
-</div>
-<div class="testDiv">
-    @CounterText
-</div>
+    <h3>Button</h3>
+    <div>
+        <TelerikButton class="primaryButton" OnClick="@OnClick">
+            Click me!
+        </TelerikButton>
+    </div>
+    <div class="testDiv">
+        @CounterText
+    </div>
 
-<br />
-<button @onclick="ShowAlert" @ref="AlertButton">Show Alert</button>
-<br />
-<button @onclick="CallCsharp">Call c#</button>
-<button @onclick="CallGridJsFunction">Call local js</button>
+    <br />
+    <button @onclick="ShowAlert" @ref="AlertButton">Show Alert</button>
+    <br />
+    <button @onclick="CallCsharp">Call c#</button>
+    <button @onclick="CallGridJsFunction">Call local js</button>
 
 
-@code {
+    @code {
 
-    ElementReference AlertButton;
 
-    public string CounterText { get; set; }
-    private int counter = 0;
+        ElementReference AlertButton;
 
-    protected void OnClick()
-    {
-        counter++;
-        CounterText = $"A gombra kattintottál {counter} alkalommal.";
+        public string CounterText { get; set; }
+        private int counter = 0;
+
+        protected async void OnClick()
+        {
+            counter++;
+            CounterText = $"A gombra kattintottál {counter} alkalommal.";
+
+            await Submit();
+        }
+
+
+
+        private Task<IJSObjectReference> _module;
+        private Task<IJSObjectReference> Module => _module ??= jsRuntime.InvokeAsync<IJSObjectReference>("import", "./js/Button.razor.js").AsTask();
+
+        async Task Submit()
+        {
+
+            var module = await Module;
+            var ret = await module.InvokeAsync<string>("Proba", "hellóka");
+
+        }
+
+        public async ValueTask DisposeAsync()
+        {
+            if (_module != null)
+            {
+                var module = await _module;
+                await module.DisposeAsync();
+            }
+        }
+
+
+
+
+
+
+
+        string message = "aladár";
+
+        private async void CallGridJsFunction()
+        {
+            await jsRuntime.InvokeAsync<IJSObjectReference>("GridJsFunction", message);
+        }
+
+        //csak meghívjuk a js-t
+        private async Task ShowAlert()
+        {
+            string res = await jsRuntime.InvokeAsync<string>("ShowAlert", message, AlertButton);
+        }
+
+        //meghívunk egy js-t, ami visszahívja a c#-ot
+        private async Task CallCsharp()
+        {
+            await jsRuntime.InvokeVoidAsync("WriteCSharpMessageToConsole", DotNetObjectReference.Create(this));
+        }
+
+        //a visszahívott c#
+        [JSInvokable]
+        public Task<string> GetHelloMessage()
+        {
+            var message = "Hello from a C# instance";
+            return Task.FromResult(message);
+        }
+
     }
-
-    string message = "aladár";
-
-    private async void CallGridJsFunction()
-    {
-        await jsRuntime.InvokeAsync<IJSObjectReference>( "GridJsFunction", message );
-    }
-
-    //csak meghívjuk a js-t
-    private async Task ShowAlert( )
-    {
-        string res = await jsRuntime.InvokeAsync<string>( "ShowAlert", message, AlertButton );
-    }
-
-    //meghívunk egy js-t, ami visszahívja a c#-ot
-    private async Task CallCsharp( )
-    {
-        await jsRuntime.InvokeVoidAsync( "WriteCSharpMessageToConsole", DotNetObjectReference.Create( this ) );
-    }
-
-    //a visszahívott c#
-    [JSInvokable]
-    public Task<string> GetHelloMessage( )
-    {
-        var message = "Hello from a C# instance";
-        return Task.FromResult( message );
-    }
-
-}
